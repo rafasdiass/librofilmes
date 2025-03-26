@@ -1,0 +1,16 @@
+<div class="modal-container" *ngIf="!isLoading(); else loadingBlock">
+    <img class="poster" [src]="posterUrl" [alt]="movie()?.title" />
+    <div class="movie-info">
+        <h2>{{ movie()?.title }}</h2>
+        <p class="release-date">Lançamento: {{ movie()?.release_date }}</p>
+        <p class="rating">Nota: {{ movie()?.vote_average }}/10</p>
+        <p class="overview">{{ movie()?.overview }}</p>
+    </div>
+    <button class="close-button" (click)="closeModal()">Fechar</button>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="loading-container">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

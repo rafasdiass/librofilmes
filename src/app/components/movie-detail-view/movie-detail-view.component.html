@@ -1,0 +1,15 @@
+<div class="view-container" *ngIf="!isLoading(); else loading">
+    <img class="poster" [src]="posterUrl" [alt]="movie()?.title" />
+    <div class="movie-info">
+        <h2>{{ movie()?.title }}</h2>
+        <p class="release-date">Lançamento: {{ movie()?.release_date }}</p>
+        <p class="rating">Nota: {{ movie()?.vote_average }}/10</p>
+        <p class="overview">{{ movie()?.overview }}</p>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading-container">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

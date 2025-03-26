@@ -1,0 +1,28 @@
+<div class="catalog-container">
+    <div class="loading-container" *ngIf="isLoading()">
+        <mat-spinner></mat-spinner>
+        <p>Carregando filmes populares...</p>
+    </div>
+
+    <div class="error-message" *ngIf="!isLoading() && errorMessage()">
+        {{ errorMessage() }}
+    </div>
+
+    <div *ngIf="!isLoading() && !errorMessage()">
+        <div *ngIf="movies().length > 0; else noMoviesBlock">
+            <div class="movies-list">
+                <div class="movie-item" *ngFor="let movie of movies()" (click)="openMovieDetailModal(movie.id)">
+                    <div class="movie-card">
+                        <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noMoviesBlock>
+            <div class="empty-list">
+                <p>Nenhum filme encontrado para exibir.</p>
+            </div>
+        </ng-template>
+    </div>
+</div>

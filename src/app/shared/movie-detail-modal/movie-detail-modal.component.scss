@@ -1,0 +1,36 @@
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+    color: #fff;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    padding: 1rem;
+    max-width: 600px;
+
+    .poster {
+        width: 100%;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        object-fit: cover;
+    }
+
+    .movie-info {
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .release-date,
+        .rating {
+            font-size: 0.95rem;
+            color: #aaa;
+            margin-bottom: 0.5rem;
+        }
+
+        .overview {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+    }
+}

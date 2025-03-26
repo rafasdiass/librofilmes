@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    background-color: #1c1c1c;
+    padding: 1rem;
+
+    .menu-toggle {
+        display: none;
+        align-self: flex-end;
+        color: white;
+
+        mat-icon {
+            font-size: 28px;
+        }
+    }
+
+    .genre-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        .genre-button {
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+
+            &.selected {
+                background-color: #03a9f4;
+                color: #000;
+                font-weight: 600;
+            }
+
+            &:hover {
+                background-color: #333;
+            }
+        }
+    }
+
+    // Responsivo: menu toggle em telas pequenas
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+        }
+
+        .genre-list {
+            flex-direction: column;
+            display: none;
+
+            &.open {
+                display: flex;
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+<nav class="navbar">
+    <button mat-icon-button class="menu-toggle" (click)="toggleMenu()">
+        <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
+    <div class="genre-list" [class.open]="isMenuOpen()">
+        <button mat-button class="genre-button" [class.selected]="selectedGenreId() === null"
+            (click)="selectGenre(null)">
+            Destaques
+        </button>
+
+        <button mat-button class="genre-button" *ngFor="let genre of genres()"
+            [class.selected]="selectedGenreId() === genre.id" (click)="selectGenre(genre.id)">
+            {{ genre.name }}
+        </button>
+    </div>
+</nav>

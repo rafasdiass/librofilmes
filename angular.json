@@ -96,6 +96,7 @@
               }
             ],
             "styles": [
+              
               "src/styles.scss"
             ],
             "scripts": []
@@ -103,5 +104,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "78975e86-2be5-41f6-ae58-d134f4c45300"
   }
 }
