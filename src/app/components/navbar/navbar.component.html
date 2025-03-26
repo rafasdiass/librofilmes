@@ -1,18 +1,15 @@
-<nav>
-    <div class="navbar-container">
-        <button mat-icon-button (click)="toggleMenu()">
-            <mat-icon>menu</mat-icon>
-        </button>
-
-        <div class="menu-items" [class.open]="isMenuOpen">
-            <button mat-button (click)="loadPopularMovies()" [class.active]="!selectedGenreId()">
+<mat-toolbar color="primary" class="navbar-toolbar">
+    <span class="navbar-title">Filmes</span>
+    <span class="spacer"></span>
+    <mat-form-field appearance="fill" class="genre-select">
+        <mat-label>Gêneros</mat-label>
+        <mat-select [value]="selectedGenreId()">
+            <mat-option (click)="loadPopularMovies()" [value]="null">
                 Todos os Filmes
-            </button>
-
-            <button *ngFor="let genre of genres()" mat-button (click)="selectGenre(genre.id)"
-                [class.active]="selectedGenreId() === genre.id">
+            </mat-option>
+            <mat-option *ngFor="let genre of genres()" [value]="genre.id" (click)="selectGenre(genre.id)">
                 {{ genre.name }}
-            </button>
-        </div>
-    </div>
-</nav>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-toolbar>
