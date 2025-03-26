@@ -1,8 +1,7 @@
-<!-- Se há movie, exibe o card -->
 <ng-container *ngIf="movie as data">
-    <div class="movie-card" (click)="goToDetails()">
+    <div class="movie-card">
         <div class="image-container">
-            <!-- Removendo loading="lazy" para evitar warnings e sumiço da LCP -->
+            <!-- Exibe o poster -->
             <img class="poster" [src]="posterUrl()" [alt]="data.title" />
             <div class="overlay">
                 <h3 class="title">{{ data.title }}</h3>
@@ -11,7 +10,6 @@
     </div>
 </ng-container>
 
-<!-- Caso não exista movie, exibe estado vazio -->
 <ng-container *ngIf="!movie">
     <div class="movie-card empty-state">
         <p>Filme indisponível</p>

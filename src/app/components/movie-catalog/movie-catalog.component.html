@@ -1,33 +1,28 @@
 <div class="catalog-container">
-    <!-- BLOCO: LOADING -->
-    <div class="loading-container" *ngIf="isLoading()">
-        <mat-spinner></mat-spinner>
-        <p>Carregando filmes populares...</p>
-    </div>
+  <!-- BLOCO: LOADING -->
+  <div class="loading-container" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+    <p>Carregando filmes populares...</p>
+  </div>
 
-    <!-- BLOCO: ERRO -->
-    <div class="error-message" *ngIf="!isLoading() && errorMessage()">
-        {{ errorMessage() }}
-    </div>
+  <!-- BLOCO: ERRO -->
+  <div class="error-message" *ngIf="!isLoading() && errorMessage()">
+    <p>{{ errorMessage() }}</p>
+  </div>
 
-    <!-- BLOCO: CONTEÚDO NORMAL -->
-    <div *ngIf="!isLoading() && !errorMessage()">
-        <!-- BLOCO: FILMES -->
-        <div *ngIf="movies().length > 0; else noMoviesBlock">
-            <div class="movies-list" [ngStyle]="{ 'grid-template-columns': 'repeat(' + cols() + ', 1fr)' }">
-                <div class="movie-item" *ngFor="let movie of movies()" (click)="openMovieDetailModal(movie.id)">
-                    <div class="movie-card">
-                        <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
-                    </div>
-                </div>
-            </div>
+  <!-- BLOCO: CONTEÚDO NORMAL -->
+  <div *ngIf="!isLoading() && !errorMessage()">
+    <div *ngIf="movies().length > 0; else noMoviesTemplate">
+      <div class="movies-list" [ngStyle]="{'grid-template-columns': 'repeat(' + cols() + ', 1fr)'}">
+        <div class="movie-item" tabindex="0" (click)="openMovieDetailModal(movie.id, $event)" *ngFor="let movie of movies()">
+          <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
         </div>
-
-        <!-- BLOCO: LISTA VAZIA -->
-        <ng-template #noMoviesBlock>
-            <div class="empty-list">
-                <p>Nenhum filme encontrado para exibir.</p>
-            </div>
-        </ng-template>
+      </div>
     </div>
+    <ng-template #noMoviesTemplate>
+      <div class="empty-list">
+        <p>Nenhum filme encontrado para exibir.</p>
+      </div>
+    </ng-template>
+  </div>
 </div>

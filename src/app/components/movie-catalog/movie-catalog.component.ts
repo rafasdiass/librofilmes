@@ -34,7 +34,7 @@ export class MovieCatalogComponent implements OnInit {
   readonly movies = signal<Movie[]>([]);
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
-  readonly cols = signal(2); // Agora com bind para colunas
+  readonly cols = signal(2); // Bind para número de colunas
 
   private readonly isBrowser: boolean;
   private popularMoviesSig: ReturnType<typeof toSignal<Movie[]>> | null = null;
@@ -80,14 +80,14 @@ export class MovieCatalogComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(e: UIEvent) {
+  onResize(e: UIEvent): void {
     if (this.isBrowser) {
       const width = (e.target as Window).innerWidth;
       this.adjustCols(width);
     }
   }
 
-  private adjustCols(width: number) {
+  private adjustCols(width: number): void {
     if (width < 576) {
       this.cols.set(1); // celular
     } else if (width >= 576 && width < 768) {
@@ -101,7 +101,11 @@ export class MovieCatalogComponent implements OnInit {
     }
   }
 
-  openMovieDetailModal(movieId: number) {
+  openMovieDetailModal(movieId: number, event: Event): void {
+    // Previne o comportamento padrão e a propagação para evitar navegação
+    event.preventDefault();
+    event.stopPropagation();
+
     this.dialog.open(MovieDetailModalComponent, {
       data: { id: String(movieId) },
       width: '600px',
