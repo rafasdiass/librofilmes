@@ -1,57 +1,44 @@
-.navbar {
+.navbar-container {
     display: flex;
     flex-direction: column;
-    background-color: #1c1c1c;
     padding: 1rem;
+    background-color: #1976d2;
+    color: white;
 
-    .menu-toggle {
+    .menu-items {
         display: none;
-        align-self: flex-end;
-        color: white;
-
-        mat-icon {
-            font-size: 28px;
-        }
-    }
-
-    .genre-list {
-        display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 0.5rem;
-        margin-top: 0.5rem;
+        padding-top: 1rem;
 
-        .genre-button {
-            color: #fff;
-            border-radius: 20px;
-            padding: 0.4rem 1rem;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
+        &.open {
+            display: flex;
+        }
 
-            &.selected {
-                background-color: #03a9f4;
-                color: #000;
-                font-weight: 600;
-            }
+        button {
+            text-align: left;
+            color: white;
 
-            &:hover {
-                background-color: #333;
+            &.active {
+                font-weight: bold;
+                text-decoration: underline;
             }
         }
     }
 
-    // Responsivo: menu toggle em telas pequenas
-    @media (max-width: 768px) {
-        .menu-toggle {
-            display: block;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+
+        .menu-items {
+            display: flex;
+            flex-direction: row;
+            padding-top: 0;
         }
 
-        .genre-list {
-            flex-direction: column;
+        button[mat-icon-button] {
             display: none;
-
-            &.open {
-                display: flex;
-            }
         }
     }
 }

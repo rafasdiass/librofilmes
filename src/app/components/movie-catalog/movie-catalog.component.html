@@ -1,28 +1,32 @@
 <div class="catalog-container">
-  <!-- BLOCO: LOADING -->
-  <div class="loading-container" *ngIf="isLoading()">
-    <mat-spinner></mat-spinner>
-    <p>Carregando filmes populares...</p>
-  </div>
-
-  <!-- BLOCO: ERRO -->
-  <div class="error-message" *ngIf="!isLoading() && errorMessage()">
-    <p>{{ errorMessage() }}</p>
-  </div>
-
-  <!-- BLOCO: CONTEÚDO NORMAL -->
-  <div *ngIf="!isLoading() && !errorMessage()">
-    <div *ngIf="movies().length > 0; else noMoviesTemplate">
-      <div class="movies-list" [ngStyle]="{'grid-template-columns': 'repeat(' + cols() + ', 1fr)'}">
-        <div class="movie-item" tabindex="0" (click)="openMovieDetailModal(movie.id, $event)" *ngFor="let movie of movies()">
-          <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
-        </div>
-      </div>
+    <div class="loading-container" *ngIf="isLoading()">
+        <mat-spinner></mat-spinner>
+        <p>Carregando filmes populares...</p>
     </div>
-    <ng-template #noMoviesTemplate>
-      <div class="empty-list">
-        <p>Nenhum filme encontrado para exibir.</p>
-      </div>
-    </ng-template>
-  </div>
+    <div class="error-message" *ngIf="!isLoading() && errorMessage()">
+        <p>{{ errorMessage() }}</p>
+    </div>
+    <div *ngIf="!isLoading() && !errorMessage()">
+        <div *ngIf="movies().length > 0; else noMoviesTemplate">
+            <div class="movies-list" [ngStyle]="{'grid-template-columns': 'repeat(' + cols() + ', 1fr)'}">
+                <div class="movie-item" tabindex="0" (click)="openMovieDetailModal(movie.id, $event)"
+                    *ngFor="let movie of movies()">
+                    <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
+                </div>
+            </div>
+            <div #scrollAnchor style="height: 1px;"></div>
+            <div class="loading-more" *ngIf="store.isLoadingNextPage()">
+                <mat-spinner diameter="30"></mat-spinner>
+                <p>Carregando mais filmes...</p>
+            </div>
+            <div class="load-more-container" *ngIf="!isLoading() && store.hasMorePages()">
+                <button mat-raised-button (click)="store.loadNextPage()">Carregar mais filmes</button>
+            </div>
+        </div>
+        <ng-template #noMoviesTemplate>
+            <div class="empty-list">
+                <p>Nenhum filme encontrado para exibir.</p>
+            </div>
+        </ng-template>
+    </div>
 </div>

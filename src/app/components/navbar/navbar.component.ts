@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,25 +13,40 @@ import { MovieStoreService } from '../../shared/services/movie-store.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  readonly genres = computed(() => this.store.genres());
-  readonly selectedGenreId = computed(() => this.store.selectedGenreId());
-
-  readonly isMenuOpen = signal(false);
+  isMenuOpen = false;
 
   constructor(
     private readonly navbarService: MovieNavbarService,
     private readonly store: MovieStoreService
   ) {}
 
-  ngOnInit(): void {
-    this.navbarService.loadGenres();
+  // Getters para os signals do estado
+  get genres() {
+    return this.store.genres;
   }
 
+  get selectedGenreId() {
+    return this.store.selectedGenreId;
+  }
+
+  ngOnInit(): void {
+    this.navbarService.initialize(); // Inicializa gêneros e aplica o filtro inicial
+  }
+
+  /**
+   * Ao selecionar um gênero, atualiza o filtro e dispara o carregamento dos filmes.
+   * @param id ID do gênero ou null para filmes populares.
+   */
   selectGenre(id: number | null): void {
     this.navbarService.selectGenre(id);
   }
 
   toggleMenu(): void {
-    this.isMenuOpen.update((open) => !open);
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  // Carrega filmes populares (sem filtro)
+  loadPopularMovies(): void {
+    this.navbarService.loadPopularMovies();
   }
 }
