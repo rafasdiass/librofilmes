@@ -1,47 +1,45 @@
 .catalog-container {
     padding: 1rem;
+    background-color: #121212;
+    color: #fff;
+}
 
-    .loading-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 2rem;
-    }
+.section {
+    margin-bottom: 2rem;
+}
 
-    .error-message {
-        color: #f44336;
-        font-weight: bold;
-        margin: 2rem 0;
-        text-align: center;
-    }
+.mat-toolbar {
+    margin-bottom: 1rem;
+}
 
-    .empty-list {
-        text-align: center;
-        margin-top: 2rem;
+.movies-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
 
-        p {
-            color: #ccc;
-            font-style: italic;
-        }
-    }
+.movies-row {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
 
-    .movies-list {
-        display: grid;
-        gap: 16px;
-        transition: all 0.3s ease;
-    }
+.movie-item {
+    flex: 0 0 auto;
+}
 
-    .movie-item {
-        cursor: pointer;
-        transition: transform 0.2s ease;
+.movies-row::-webkit-scrollbar {
+    display: none;
+}
 
-        &:hover {
-            transform: scale(1.03);
-        }
-    }
+.load-more-container {
+    margin-top: 1rem;
+    text-align: right;
+}
 
-    .movie-card {
-        width: 100%;
-    }
+.loading-more {
+    text-align: center;
+    margin-top: 1rem;
 }

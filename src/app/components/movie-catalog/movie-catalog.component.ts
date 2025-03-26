@@ -17,6 +17,8 @@ import { MoviePreviewCardComponent } from '../../shared/movie-preview-card/movie
 import { MovieDetailModalComponent } from '../../shared/movie-detail-modal/movie-detail-modal.component';
 import { MovieStoreService } from '../../shared/services/movie-store.service';
 import { PLATFORM_ID } from '@angular/core';
+import { MatCard } from '@angular/material/card';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-movie-catalog',
@@ -26,6 +28,8 @@ import { PLATFORM_ID } from '@angular/core';
     MatDialogModule,
     MatProgressSpinnerModule,
     MoviePreviewCardComponent,
+    MatCard,
+    MatToolbar,
   ],
   templateUrl: './movie-catalog.component.html',
   styleUrls: ['./movie-catalog.component.scss'],
@@ -44,6 +48,30 @@ export class MovieCatalogComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('scrollAnchor', { static: false })
   scrollAnchor!: ElementRef<HTMLDivElement>;
   private intersectionObserver?: IntersectionObserver;
+  readonly moviesByGenre = computed(() => {
+    const groups: { [genreId: number]: any[] } = {};
+    const movies = this.movies();
+    const genres = this.store.genres();
+    genres.forEach((genre: any) => {
+      groups[genre.id] = movies.filter(
+        (movie: any) =>
+          movie.genre_ids &&
+          Array.isArray(movie.genre_ids) &&
+          movie.genre_ids.includes(genre.id)
+      );
+    });
+    return groups;
+  });
+  readonly moviesByGenreRows = computed(() => {
+    const groups: { [genreId: number]: any[][] } = {};
+    const groupsFlat = this.moviesByGenre();
+    for (const genreId in groupsFlat) {
+      const movies = groupsFlat[genreId];
+      const half = Math.ceil(movies.length / 2);
+      groups[genreId] = [movies.slice(0, half), movies.slice(half)];
+    }
+    return groups;
+  });
 
   ngOnInit(): void {
     if (this.isBrowser) {

@@ -1,32 +1,55 @@
 <div class="catalog-container">
-    <div class="loading-container" *ngIf="isLoading()">
-        <mat-spinner></mat-spinner>
-        <p>Carregando filmes populares...</p>
-    </div>
-    <div class="error-message" *ngIf="!isLoading() && errorMessage()">
-        <p>{{ errorMessage() }}</p>
-    </div>
-    <div *ngIf="!isLoading() && !errorMessage()">
-        <div *ngIf="movies().length > 0; else noMoviesTemplate">
-            <div class="movies-list" [ngStyle]="{'grid-template-columns': 'repeat(' + cols() + ', 1fr)'}">
+    <ng-container *ngIf="!isLoading() && !errorMessage(); else loadingOrError">
+        <section class="section popular-section">
+            <mat-toolbar color="primary">
+                <span>Filmes Populares</span>
+            </mat-toolbar>
+            <div class="movies-grid">
                 <div class="movie-item" tabindex="0" (click)="openMovieDetailModal(movie.id, $event)"
-                    *ngFor="let movie of movies()">
-                    <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
+                    *ngFor="let movie of movies() | slice:0:(cols()*2)">
+                    <mat-card>
+                        <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
+                    </mat-card>
                 </div>
             </div>
-            <div #scrollAnchor style="height: 1px;"></div>
-            <div class="loading-more" *ngIf="store.isLoadingNextPage()">
-                <mat-spinner diameter="30"></mat-spinner>
-                <p>Carregando mais filmes...</p>
+            <div class="load-more-container" *ngIf="store.hasMorePages()">
+                <button mat-raised-button color="accent" (click)="reloadMovies()">Ver mais populares</button>
             </div>
-            <div class="load-more-container" *ngIf="!isLoading() && store.hasMorePages()">
-                <button mat-raised-button (click)="store.loadNextPage()">Carregar mais filmes</button>
-            </div>
+        </section>
+        <ng-container *ngFor="let genre of store.genres()">
+            <section class="section">
+                <mat-toolbar color="primary">
+                    <span>{{ genre.name }}</span>
+                </mat-toolbar>
+                <ng-container *ngIf="moviesByGenreRows()[genre.id] as rows">
+                    <div class="movies-row" *ngFor="let row of rows">
+                        <div class="movie-item" tabindex="0" (click)="openMovieDetailModal(movie.id, $event)"
+                            *ngFor="let movie of row">
+                            <mat-card>
+                                <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
+                            </mat-card>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="load-more-container"
+                    *ngIf="moviesByGenreRows()[genre.id] && ((moviesByGenreRows()[genre.id][0].length + moviesByGenreRows()[genre.id][1].length) >= cols()*2)">
+                    <button mat-raised-button color="accent" (click)="reloadMovies()">Ver mais</button>
+                </div>
+            </section>
+        </ng-container>
+        <div #scrollAnchor style="height: 1px;"></div>
+        <div class="loading-more" *ngIf="store.isLoadingNextPage()">
+            <mat-spinner diameter="30"></mat-spinner>
+            <p>Carregando mais filmes...</p>
         </div>
-        <ng-template #noMoviesTemplate>
-            <div class="empty-list">
-                <p>Nenhum filme encontrado para exibir.</p>
-            </div>
-        </ng-template>
-    </div>
+    </ng-container>
+    <ng-template #loadingOrError>
+        <div *ngIf="isLoading()">
+            <mat-spinner></mat-spinner>
+            <p>Carregando filmes...</p>
+        </div>
+        <div *ngIf="errorMessage()">
+            <p>{{ errorMessage() }}</p>
+        </div>
+    </ng-template>
 </div>
