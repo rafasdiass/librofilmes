@@ -1,7 +1,6 @@
 .catalog-container {
     padding: 1rem;
 
-    /* BLOCO 1: Loading */
     .loading-container {
         display: flex;
         flex-direction: column;
@@ -10,16 +9,13 @@
         margin-top: 2rem;
     }
 
-    /* BLOCO 2: Erro */
     .error-message {
         color: #f44336;
-        /* tom de vermelho */
         font-weight: bold;
         margin: 2rem 0;
         text-align: center;
     }
 
-    /* BLOCO 3b: Lista vazia */
     .empty-list {
         text-align: center;
         margin-top: 2rem;
@@ -30,52 +26,22 @@
         }
     }
 
-    /* Container principal dos itens de filme */
     .movies-list {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
         gap: 16px;
-        /* Espaçamento entre itens */
-        justify-content: flex-start;
-        /* ou space-around, center, etc. */
+        transition: all 0.3s ease;
     }
 
-    /* Cada item de filme */
     .movie-item {
-        /* Porcentagem ou calc para colunas estilo primevideo */
-        flex: 0 0 calc(25% - 16px);
-        /* 
-      No primevideo, normalmente a capa é vertical. 
-      Você pode ajustar a altura se quiser, 
-      ou deixar adaptável de acordo com o conteúdo interno. 
-    */
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.03);
+        }
     }
 
-    /* Card que envolve o preview do filme */
     .movie-card {
-        background-color: #141414;
-        border-radius: 4px;
         width: 100%;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Responsividade para telas menores */
-    @media (max-width: 992px) {
-        .movie-item {
-            flex: 0 0 calc(33.33% - 16px);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .movie-item {
-            flex: 0 0 calc(50% - 16px);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .movie-item {
-            flex: 0 0 100%;
-        }
     }
 }

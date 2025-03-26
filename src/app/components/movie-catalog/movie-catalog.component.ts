@@ -7,28 +7,24 @@ import {
   Inject,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MovieApiService } from '../../shared/services/movie-api.service';
 import { MoviePreviewCardComponent } from '../../shared/movie-preview-card/movie-preview-card.component';
+import { MovieDetailModalComponent } from '../../shared/movie-detail-modal/movie-detail-modal.component';
 import { Movie } from '../../shared/models/movie.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { PLATFORM_ID } from '@angular/core';
-import { MovieDetailModalComponent } from '../../shared/movie-detail-modal/movie-detail-modal.component';
 
 @Component({
   selector: 'app-movie-catalog',
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatProgressSpinnerModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     MoviePreviewCardComponent,
   ],
   templateUrl: './movie-catalog.component.html',
@@ -38,25 +34,27 @@ export class MovieCatalogComponent implements OnInit {
   readonly movies = signal<Movie[]>([]);
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
-  readonly cols = signal(2);
+  readonly cols = signal(2); // Agora com bind para colunas
+
   private readonly isBrowser: boolean;
   private popularMoviesSig: ReturnType<typeof toSignal<Movie[]>> | null = null;
 
   constructor(
     private readonly movieService: MovieApiService,
     private readonly dialog: MatDialog,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
     this.popularMoviesSig = toSignal(
       this.movieService.getPopularMovies().pipe(
-        tap((movies) => {
+        tap((list) => {
           this.isLoading.set(false);
-          if (!movies?.length) {
+          if (!list?.length) {
             this.errorMessage.set('Nenhum filme encontrado!');
           }
         }),
-        catchError((err: unknown) => {
+        catchError(() => {
           this.isLoading.set(false);
           this.errorMessage.set(
             'Falha ao carregar a lista de filmes populares.'
@@ -64,10 +62,9 @@ export class MovieCatalogComponent implements OnInit {
           return of<Movie[]>([]);
         })
       ),
-      {
-        initialValue: [],
-      }
+      { initialValue: [] }
     );
+
     effect(() => {
       const data = this.popularMoviesSig?.();
       if (data) {
@@ -83,22 +80,28 @@ export class MovieCatalogComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event: UIEvent) {
+  onResize(e: UIEvent) {
     if (this.isBrowser) {
-      const width = (event.target as Window).innerWidth;
+      const width = (e.target as Window).innerWidth;
       this.adjustCols(width);
     }
   }
 
-  private adjustCols(width: number): void {
-    if (width < 768) {
-      this.cols.set(1);
+  private adjustCols(width: number) {
+    if (width < 576) {
+      this.cols.set(1); // celular
+    } else if (width >= 576 && width < 768) {
+      this.cols.set(2); // tablets
+    } else if (width >= 768 && width < 992) {
+      this.cols.set(3); // notebooks
+    } else if (width >= 992 && width < 1200) {
+      this.cols.set(4); // desktops médios
     } else {
-      this.cols.set(2);
+      this.cols.set(5); // telas grandes
     }
   }
 
-  openMovieDetailModal(movieId: number): void {
+  openMovieDetailModal(movieId: number) {
     this.dialog.open(MovieDetailModalComponent, {
       data: { id: String(movieId) },
       width: '600px',

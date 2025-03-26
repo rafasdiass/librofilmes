@@ -1,16 +1,20 @@
 <div class="catalog-container">
+    <!-- BLOCO: LOADING -->
     <div class="loading-container" *ngIf="isLoading()">
         <mat-spinner></mat-spinner>
         <p>Carregando filmes populares...</p>
     </div>
 
+    <!-- BLOCO: ERRO -->
     <div class="error-message" *ngIf="!isLoading() && errorMessage()">
         {{ errorMessage() }}
     </div>
 
+    <!-- BLOCO: CONTEÚDO NORMAL -->
     <div *ngIf="!isLoading() && !errorMessage()">
+        <!-- BLOCO: FILMES -->
         <div *ngIf="movies().length > 0; else noMoviesBlock">
-            <div class="movies-list">
+            <div class="movies-list" [ngStyle]="{ 'grid-template-columns': 'repeat(' + cols() + ', 1fr)' }">
                 <div class="movie-item" *ngFor="let movie of movies()" (click)="openMovieDetailModal(movie.id)">
                     <div class="movie-card">
                         <app-movie-preview-card [movie]="movie"></app-movie-preview-card>
@@ -19,6 +23,7 @@
             </div>
         </div>
 
+        <!-- BLOCO: LISTA VAZIA -->
         <ng-template #noMoviesBlock>
             <div class="empty-list">
                 <p>Nenhum filme encontrado para exibir.</p>
