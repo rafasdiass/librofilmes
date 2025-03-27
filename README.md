@@ -1,59 +1,136 @@
-# LibroFilmes
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 
-## Development server
+### ✅ `README.md` — LibroFilme (Angular 19)
 
-To start a local development server, run:
+```markdown
+# 🎬 LibroFilme - Catálogo de Filmes
 
+Aplicação desenvolvida com **Angular 19**, com foco em apresentação de filmes e detalhes de forma modular, responsiva e performática. O projeto segue boas práticas de arquitetura, com uso de SSR (Server Side Rendering), componentes reutilizáveis e organização por domínio.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- Angular 19 (Standalone API)
+- TypeScript
+- SCSS (modular)
+- Angular Universal (SSR)
+- RxJS
+- Estrutura modular e desacoplada
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── home/
+│   │   ├── movie-catalog/
+│   │   ├── movie-detail-view/
+│   │   └── navbar/
+│   ├── shared/
+│   ├── app.component.*
+│   ├── app.routes.ts
+│   ├── app.config.ts
+│   ├── ...
+├── environments/
+├── index.html
+├── main.ts
+├── main.server.ts
+├── server.ts
+```
+
+- `components`: Contém os módulos da interface (catálogo, detalhes, navbar).
+- `shared`: Diretório para pipes, serviços, interfaces e helpers.
+- `app.routes.ts`: Gerenciamento das rotas standalone.
+- `app.config.ts`: Configurações do app com `provideRouter`, `provideHttpClient`, etc.
+
+---
+
+## 💻 Instalação e Execução
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/seu-usuario/libro-filme.git
+cd libro-filme
+```
+
+### 2. Instalar dependências
+
+```bash
+npm install
+```
+
+### 3. Rodar localmente
+
+#### ✅ Modo padrão (CSR):
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+#### ⚡ Com SSR (Angular Universal):
 ```bash
-ng generate component component-name
+npm run dev:ssr
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
+
+## 🧩 Funcionalidades
+
+- [x] Exibição de filmes em catálogo (cards ou lista)
+- [x] Visualização de detalhes de um filme (rota dinâmica)
+- [x] Navegação com standalone routing
+- [x] Requisições para API externa (ex: TMDB)
+- [x] Arquitetura escalável
+- [x] Estilo com SCSS isolado por componente
+- [x] Suporte a SSR com `@angular/ssr`
+- [x] Testes com `*.spec.ts` nos componentes
+
+---
+
+## 🔧 Comandos disponíveis
 
 ```bash
-ng generate --help
+ng serve               # Roda o projeto em modo desenvolvimento
+npm run build          # Build da versão final
+npm run build:ssr      # Build para SSR
+npm run dev:ssr        # Roda com SSR
+ng test                # Executa os testes
 ```
 
-## Building
+---
 
-To build the project run:
+## 🧪 Testes
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Os testes dos componentes são feitos com `Jasmine + Karma`.  
+Exemplo:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 📌 Requisitos
 
-```bash
-ng e2e
+- Node.js v18+
+- Angular CLI 17 ou 18+ (funciona com 17 e 19)
+- Compatível com navegadores modernos
+
+---
+
+## 📃 Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+---
+
+**Desenvolvido por Rafael Dias**  
+📧 contato: [https://www.linkedin.com/in/rdrafaeldias/](https://www.linkedin.com/in/rdrafaeldias/)
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
